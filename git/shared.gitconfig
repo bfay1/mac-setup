@@ -1,0 +1,28 @@
+# Shared git settings. ~/.gitconfig includes this file (install.sh sets that
+# up); your name, email and anything else personal stay in ~/.gitconfig.
+[alias]
+	st = status
+	co = checkout
+	br = branch
+	ci = commit
+	si = switch
+	last = log -1 HEAD
+	unstage = reset HEAD --
+	visual = !gitk
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[push]
+	autoSetupRemote = true
+[rerere]
+	enabled = true
+	autoupdate = true
+[rebase]
+	autoStash = true
+	updateRefs = true
+[branch]
+	autoSetupMerge = simple

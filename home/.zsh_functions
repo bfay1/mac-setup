@@ -1,0 +1,35 @@
+# Shell functions (sourced from ~/.zshrc)
+
+# Long ls with a header row (used by the lls alias)
+long_ls() {
+  local VAR="Permissions|Owner|Group|Size|Modified|Name"
+  if [ ! "${1}" ]; then
+    echo -e "$VAR" | column -t -s"|" && ls -l
+  else
+    echo -e "$VAR" | column -t -s"|" && ls -l "${1}"
+  fi
+}
+
+# dict: search the system English dictionary (/usr/share/dict/words)
+#   dict foo      words containing "foo"
+#   dict -s foo   words starting with "foo"
+#   dict -e foo   words ending with "foo"
+#   dict -x foo   exact match (exit status 0/1)
+#   dict -r 're'  extended regex (e.g. dict -r '^a.{3}z$')
+dict() {
+  local file=/usr/share/dict/words mode=contains
+  case "$1" in
+    -s) mode=start; shift ;;
+    -e) mode=end;   shift ;;
+    -x) mode=exact; shift ;;
+    -r) mode=regex; shift ;;
+  esac
+  [[ -z "$1" ]] && { echo "usage: dict [-s|-e|-x|-r] pattern" >&2; return 2; }
+  case $mode in
+    contains) grep -i -- "$1" "$file" ;;
+    start)    grep -i -- "^$1" "$file" ;;
+    end)      grep -i -- "$1\$" "$file" ;;
+    exact)    grep -i -x -q -- "$1" "$file" && echo "$1: yes" || { echo "$1: no"; return 1; } ;;
+    regex)    grep -i -E -- "$1" "$file" ;;
+  esac
+}
