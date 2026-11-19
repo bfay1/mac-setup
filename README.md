@@ -39,9 +39,9 @@ Options, set before the command (e.g. `SKIP_BREW=1 /bin/bash -c "$(curl ...)"`):
 
 | File | What it does |
 |---|---|
-| `.zshrc` | Homebrew on the PATH, big shared history, loads the files below |
-| `.zsh_aliases` | `ll`, `la`, `vim`→`nvim`, `lg`→lazygit, `ez`/`sz` to edit/reload zsh, `alert` notification after long commands |
-| `.zsh_functions` | `lls` (ls with headers), `dict` (search the system dictionary) |
+| `.zshrc` | Homebrew on the PATH, big shared history, Docker via colima, nvm and node@22 if installed, loads the files below |
+| `.zsh_aliases` | `ll`, `la`, `vim`→`nvim`, `lg`→lazygit, `ez`/`sz` to edit/reload zsh, `rz` to restart it, `alert` notification after long commands |
+| `.zsh_functions` | `lls` (ls with headers), `dict` (search the system dictionary), `dl` (download audio as wav into `~/Music`), `cc` (start [Claude Code](https://claude.com/claude-code) with permission prompts skipped; install Claude Code separately) |
 | `git/shared.gitconfig` | Short aliases (`st`, `co`, `br`…), `main` as default branch, auto-upstream on push, rerere, rebase autostash, git-lfs |
 | `.tmux.conf` | Mouse on, `\|` and `-` to split, `Ctrl-h/j/k/l` to move between tmux panes *and* nvim splits, gruvbox status bar, session save/restore |
 | `.config/nvim` | LazyVim with Python, TypeScript, Tailwind, JSON and C/C++ support, gruvbox, tmux navigation, Claude Code integration (`<leader>a…`) |

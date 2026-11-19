@@ -6,6 +6,8 @@ elif [ -x /usr/local/bin/brew ]; then
 fi
 
 export PATH="$HOME/.local/bin:$PATH"
+# Prefer node@22 over the latest node, if it is installed (brew install node@22)
+[ -d "$HOMEBREW_PREFIX/opt/node@22/bin" ] && export PATH="$HOMEBREW_PREFIX/opt/node@22/bin:$PATH"
 export EDITOR=nvim
 
 # colored GCC warnings and errors
@@ -19,6 +21,14 @@ setopt EXTENDED_HISTORY SHARE_HISTORY HIST_IGNORE_DUPS
 
 # All standalone shell functions live here.
 [ -f "$HOME/.zsh_functions" ] && source "$HOME/.zsh_functions"
+
+# nvm, if installed
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# Docker runs inside colima (installed by the Brewfile as a login service)
+export DOCKER_HOST="unix://$HOME/.colima/default/docker.sock"
 
 # Drop-in config: put your own *.zsh files in ~/.zshrc.d/ (not part of this
 # repo). Sourced before the aliases: zsh expands aliases inside a function

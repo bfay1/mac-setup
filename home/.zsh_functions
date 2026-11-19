@@ -33,3 +33,47 @@ dict() {
     regex)    grep -i -E -- "$1" "$file" ;;
   esac
 }
+
+# Download audio as wav into ~/Music.
+#   dl <url>          -> named after the video title
+#   dl <name> <url>   -> named <name>
+dl() {
+  local name url
+  case $# in
+    1) name='%(title)s'; url=$1 ;;
+    2) name=$1; url=$2 ;;
+    *) echo "usage: dl [name] <url>" >&2; return 1 ;;
+  esac
+  yt-dlp -x --audio-format wav --no-playlist -o "$HOME/Music/$name.%(ext)s" "$url"
+}
+
+# Start Claude Code with permission prompts skipped. Shadows the C compiler
+# `cc` in interactive shells only (make and scripts still get /usr/bin/cc).
+#   cc [-n|--name <name>] [-w|--worktree <name>] [-e|--effort <level>] [claude args...]
+# Anything not recognised is passed straight through to claude.
+cc() {
+  emulate -L zsh
+  local -a args=()
+  while (( $# )); do
+    case $1 in
+      -n|--name|-w|--worktree|-e|--effort)
+        if [[ -z $2 || $2 == -* ]]; then
+          print -u2 "cc: $1 requires a value"
+          return 2
+        fi
+        case $1 in
+          -n|--name)     args+=(--name "$2") ;;
+          -w|--worktree) args+=(--worktree "$2") ;;
+          -e|--effort)   args+=(--effort "$2") ;;
+        esac
+        shift 2 ;;
+      --name=*|--worktree=*|--effort=*)
+        args+=("$1"); shift ;;
+      --)
+        shift; args+=("$@"); break ;;
+      *)
+        args+=("$1"); shift ;;
+    esac
+  done
+  command claude --dangerously-skip-permissions "${args[@]}"
+}

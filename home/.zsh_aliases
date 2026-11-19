@@ -21,6 +21,7 @@ alias ez='vim ~/.zshrc'
 alias ea='vim ~/.zsh_aliases'
 alias ef='vim ~/.zsh_functions'
 alias sz='source ~/.zshrc'
+alias rz='exec zsh'           # restart the shell from scratch
 
 # git
 alias lg='lazygit'
